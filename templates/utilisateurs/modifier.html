@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block titre %}Modifier l'utilisateur{% endblock %}
+
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h1>Modifier l'utilisateur</h1>
+
+    {% if erreurs %}
+        <ul class="liste-erreurs">
+            {% for erreur in erreurs %}
+                <li>{{ erreur }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form
+        action="{{ url_for('utilisateurs.modifier_utilisateur', user_id=utilisateur['id']) }}"
+        method="post"
+        enctype="multipart/form-data"
+        novalidate
+    >
+        <div class="champ">
+            <label for="prenom">Prénom <span class="requis">*</span></label>
+            <input
+                type="text"
+                id="prenom"
+                name="prenom"
+                value="{{ utilisateur['prenom'] }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="nom">Nom <span class="requis">*</span></label>
+            <input
+                type="text"
+                id="nom"
+                name="nom"
+                value="{{ utilisateur['nom'] }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="courriel">Courriel <span class="requis">*</span></label>
+            <input
+                type="email"
+                id="courriel"
+                name="courriel"
+                value="{{ utilisateur['courriel'] }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label>Nom d'utilisateur</label>
+            <input type="text" value="{{ utilisateur['username'] }}" disabled>
+        </div>
+
+        <div class="champ">
+            <label for="mot_de_passe">
+                Nouveau mot de passe
+            </label>
+            <input
+                type="password"
+                id="mot_de_passe"
+                name="mot_de_passe"
+                minlength="6"
+                placeholder="Laisser vide pour ne pas modifier"
+            >
+        </div>
+
+        <div class="champ">
+            {% if utilisateur['photo'] %}
+            <p>Photo actuelle :</p>
+            <img
+                src="{{ url_for('static', filename='uploads/' + utilisateur['photo']) }}"
+                alt="Photo de profil"
+                class="photo-apercu"
+            >
+            {% endif %}
+            <label for="photo">Nouvelle photo de profil</label>
+            <input
+                type="file"
+                id="photo"
+                name="photo"
+                accept="image/png,image/jpeg,image/gif,image/webp"
+            >
+        </div>
+
+        <div class="actions-formulaire">
+            <button type="submit" class="bouton-principal">Enregistrer</button>
+            <a
+                href="{{ url_for('utilisateurs.liste_utilisateurs') }}"
+                class="bouton-annuler"
+            >
+                Annuler
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

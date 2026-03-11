@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block titre %}Erreur serveur – CMS INF5190{% endblock %}
+
+{% block contenu %}
+<section class="erreur">
+    <h1>500 – Erreur interne du serveur</h1>
+    <p>Une erreur inattendue s'est produite. Veuillez réessayer plus tard.</p>
+    <a href="{{ url_for('public.accueil') }}">&larr; Retour à l'accueil</a>
+</section>
+{% endblock %}

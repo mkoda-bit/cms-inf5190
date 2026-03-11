@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block titre %}Nouvel article – Administration{% endblock %}
+
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h1>Créer un nouvel article</h1>
+
+    {% if erreurs %}
+        <ul class="liste-erreurs">
+            {% for erreur in erreurs %}
+                <li>{{ erreur }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form action="{{ url_for('admin.creer_article') }}" method="post" novalidate>
+        <div class="champ">
+            <label for="titre">Titre <span class="requis">*</span></label>
+            <input
+                type="text"
+                id="titre"
+                name="titre"
+                value="{{ valeurs.get('titre', '') }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="identifiant">
+                Identifiant URL <span class="requis">*</span>
+            </label>
+            <input
+                type="text"
+                id="identifiant"
+                name="identifiant"
+                value="{{ valeurs.get('identifiant', '') }}"
+                pattern="[a-zA-Z0-9\-_]+"
+                title="Lettres, chiffres, tirets et tirets de soulignement uniquement"
+                required
+            >
+            <small>Utilisé dans l'URL : /article/mon-identifiant</small>
+        </div>
+
+        <div class="champ">
+            <label for="auteur">Auteur <span class="requis">*</span></label>
+            <input
+                type="text"
+                id="auteur"
+                name="auteur"
+                value="{{ valeurs.get('auteur', '') }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="date_publication">
+                Date de publication <span class="requis">*</span>
+            </label>
+            <input
+                type="date"
+                id="date_publication"
+                name="date_publication"
+                value="{{ valeurs.get('date_publication', '') }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="contenu">Contenu <span class="requis">*</span></label>
+            <textarea
+                id="contenu"
+                name="contenu"
+                rows="10"
+                required
+            >{{ valeurs.get('contenu', '') }}</textarea>
+            <small>Le HTML est autorisé.</small>
+        </div>
+
+        <div class="actions-formulaire">
+            <button type="submit" class="bouton-principal">Créer l'article</button>
+            <a href="{{ url_for('admin.tableau_de_bord') }}" class="bouton-annuler">
+                Annuler
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

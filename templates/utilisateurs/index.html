@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block titre %}Gestion des utilisateurs{% endblock %}
+
+{% block contenu %}
+<section class="admin-tableau-de-bord">
+    <div class="admin-entete">
+        <h1>Gestion des utilisateurs</h1>
+        <a href="{{ url_for('utilisateurs.nouveau_utilisateur_form') }}" class="bouton-principal">
+            + Nouvel utilisateur
+        </a>
+    </div>
+
+    {% if utilisateurs %}
+    <table class="tableau">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Courriel</th>
+                <th>Nom d'utilisateur</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in utilisateurs %}
+            <tr class="{{ 'inactif' if not u['actif'] }}">
+                <td>
+                    {% if u['photo'] %}
+                    <img
+                        src="{{ url_for('static', filename='uploads/' + u['photo']) }}"
+                        alt="Photo de {{ u['prenom'] }}"
+                        class="photo-miniature"
+                    >
+                    {% else %}
+                    <span class="sans-photo">—</span>
+                    {% endif %}
+                </td>
+                <td>{{ u['nom'] }}</td>
+                <td>{{ u['prenom'] }}</td>
+                <td>{{ u['courriel'] }}</td>
+                <td>{{ u['username'] }}</td>
+                <td>
+                    <span class="statut {{ 'actif' if u['actif'] else 'desactive' }}">
+                        {{ 'Actif' if u['actif'] else 'Désactivé' }}
+                    </span>
+                </td>
+                <td class="actions">
+                    <a
+                        href="{{ url_for('utilisateurs.modifier_utilisateur_form', user_id=u['id']) }}"
+                        class="bouton-secondaire"
+                    >
+                        Modifier
+                    </a>
+                    <form
+                        action="{{ url_for('utilisateurs.basculer_statut', user_id=u['id']) }}"
+                        method="post"
+                        style="display:inline"
+                    >
+                        <button
+                            type="submit"
+                            class="{{ 'bouton-desactiver' if u['actif'] else 'bouton-activer' }}"
+                        >
+                            {{ 'Désactiver' if u['actif'] else 'Activer' }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="vide">Aucun utilisateur enregistré.</p>
+    {% endif %}
+</section>
+{% endblock %}

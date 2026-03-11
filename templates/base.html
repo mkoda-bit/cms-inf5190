@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block titre %}CMS INF5190{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="{{ url_for('public.accueil') }}" class="site-titre">CMS INF5190</a>
+            <nav class="site-nav">
+                <a href="{{ url_for('public.accueil') }}">Accueil</a>
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('admin.tableau_de_bord') }}">Administration</a>
+                    <a href="{{ url_for('utilisateurs.liste_utilisateurs') }}">Utilisateurs</a>
+                    <a href="{{ url_for('admin.deconnexion') }}">Déconnexion</a>
+                {% else %}
+                    <a href="{{ url_for('admin.connexion') }}">Connexion</a>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categorie, message in messages %}
+                    <div class="alerte alerte-{{ categorie }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block contenu %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 CMS INF5190</p>
+        </div>
+    </footer>
+</body>
+</html>

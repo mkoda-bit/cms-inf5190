@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block titre %}Tableau de bord – Administration{% endblock %}
+
+{% block contenu %}
+<section class="admin-tableau-de-bord">
+    <div class="admin-entete">
+        <h1>Gestion des articles</h1>
+        <a href="{{ url_for('admin.nouveau_article_form') }}" class="bouton-principal">
+            + Nouvel article
+        </a>
+    </div>
+
+    {% if articles %}
+    <table class="tableau">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Date de publication</th>
+                <th>Auteur</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for art in articles %}
+            <tr>
+                <td>
+                    <a href="{{ url_for('public.voir_article', identifiant=art['identifiant']) }}">
+                        {{ art['titre'] }}
+                    </a>
+                </td>
+                <td>
+                    <time datetime="{{ art['date_publication'] }}">
+                        {{ art['date_publication'] }}
+                    </time>
+                </td>
+                <td>{{ art['auteur'] }}</td>
+                <td>
+                    <a href="{{ url_for('admin.modifier_article_form', article_id=art['id']) }}"
+                       class="bouton-secondaire">
+                        Modifier
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <p class="vide">Aucun article pour l'instant.</p>
+    {% endif %}
+</section>
+{% endblock %}

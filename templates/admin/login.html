@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block titre %}Connexion – Administration{% endblock %}
+
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h1>Connexion administrateur</h1>
+
+    {% if erreur %}
+        <div class="alerte alerte-erreur">{{ erreur }}</div>
+    {% endif %}
+
+    <form action="{{ url_for('admin.connexion') }}" method="post" novalidate>
+        <div class="champ">
+            <label for="username">Nom d'utilisateur</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                required
+                autocomplete="username"
+            >
+        </div>
+
+        <div class="champ">
+            <label for="mot_de_passe">Mot de passe</label>
+            <input
+                type="password"
+                id="mot_de_passe"
+                name="mot_de_passe"
+                required
+                autocomplete="current-password"
+            >
+        </div>
+
+        <button type="submit" class="bouton-principal">Se connecter</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block titre %}Accueil – CMS INF5190{% endblock %}
+
+{% block contenu %}
+<section class="recherche">
+    <form action="{{ url_for('public.recherche') }}" method="get" class="formulaire-recherche">
+        <label for="q">Rechercher un article</label>
+        <div class="recherche-groupe">
+            <input
+                type="search"
+                id="q"
+                name="q"
+                placeholder="Entrez un mot-clé..."
+                minlength="1"
+                required
+            >
+            <button type="submit">Rechercher</button>
+        </div>
+    </form>
+</section>
+
+<section class="articles">
+    <h1>Dernières publications</h1>
+
+    {% if articles %}
+        {% for art in articles %}
+        <article class="carte-article">
+            <header class="carte-article-entete">
+                <h2>
+                    <a href="{{ url_for('public.voir_article', identifiant=art['identifiant']) }}">
+                        {{ art['titre'] }}
+                    </a>
+                </h2>
+                <p class="meta">
+                    Par <strong>{{ art['auteur'] }}</strong>
+                    le <time datetime="{{ art['date_publication'] }}">{{ art['date_publication'] }}</time>
+                </p>
+            </header>
+            <div class="carte-article-contenu">
+                {{ art['contenu'] | safe }}
+            </div>
+        </article>
+        {% endfor %}
+    {% else %}
+        <p class="vide">Aucun article publié pour l'instant.</p>
+    {% endif %}
+</section>
+{% endblock %}

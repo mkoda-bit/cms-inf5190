@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block titre %}Résultats de recherche – CMS INF5190{% endblock %}
+
+{% block contenu %}
+<section class="resultats-recherche">
+    <h1>Résultats pour « {{ terme }} »</h1>
+
+    {% if resultats %}
+        <ul class="liste-resultats">
+            {% for art in resultats %}
+            <li class="resultat-item">
+                <a href="{{ url_for('public.voir_article', identifiant=art['identifiant']) }}">
+                    {{ art['titre'] }}
+                </a>
+                <span class="date-publication">
+                    — Publié le <time datetime="{{ art['date_publication'] }}">{{ art['date_publication'] }}</time>
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="vide">Aucun article ne correspond à votre recherche.</p>
+    {% endif %}
+
+    <a href="{{ url_for('public.accueil') }}">&larr; Retour à l'accueil</a>
+</section>
+{% endblock %}

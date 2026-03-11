@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block titre %}Modifier l'article – Administration{% endblock %}
+
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h1>Modifier l'article</h1>
+
+    {% if erreurs %}
+        <ul class="liste-erreurs">
+            {% for erreur in erreurs %}
+                <li>{{ erreur }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form
+        action="{{ url_for('admin.modifier_article', article_id=article['id']) }}"
+        method="post"
+        novalidate
+    >
+        <div class="champ">
+            <label for="titre">Titre <span class="requis">*</span></label>
+            <input
+                type="text"
+                id="titre"
+                name="titre"
+                value="{{ article['titre'] }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label>Identifiant URL</label>
+            <input type="text" value="{{ article['identifiant'] }}" disabled>
+            <small>L'identifiant ne peut pas être modifié.</small>
+        </div>
+
+        <div class="champ">
+            <label>Auteur</label>
+            <input type="text" value="{{ article['auteur'] }}" disabled>
+        </div>
+
+        <div class="champ">
+            <label>Date de publication</label>
+            <input type="date" value="{{ article['date_publication'] }}" disabled>
+        </div>
+
+        <div class="champ">
+            <label for="contenu">Contenu <span class="requis">*</span></label>
+            <textarea id="contenu" name="contenu" rows="10" required>{{ article['contenu'] }}</textarea>
+            <small>Le HTML est autorisé.</small>
+        </div>
+
+        <div class="actions-formulaire">
+            <button type="submit" class="bouton-principal">Enregistrer</button>
+            <a href="{{ url_for('admin.tableau_de_bord') }}" class="bouton-annuler">
+                Annuler
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}

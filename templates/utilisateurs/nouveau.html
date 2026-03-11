@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block titre %}Nouvel utilisateur{% endblock %}
+
+{% block contenu %}
+<section class="formulaire-conteneur">
+    <h1>Ajouter un utilisateur</h1>
+
+    {% if erreurs %}
+        <ul class="liste-erreurs">
+            {% for erreur in erreurs %}
+                <li>{{ erreur }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <form
+        action="{{ url_for('utilisateurs.creer_utilisateur') }}"
+        method="post"
+        enctype="multipart/form-data"
+        novalidate
+    >
+        <div class="champ">
+            <label for="prenom">Prénom <span class="requis">*</span></label>
+            <input
+                type="text"
+                id="prenom"
+                name="prenom"
+                value="{{ valeurs.get('prenom', '') }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="nom">Nom <span class="requis">*</span></label>
+            <input
+                type="text"
+                id="nom"
+                name="nom"
+                value="{{ valeurs.get('nom', '') }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="courriel">Courriel <span class="requis">*</span></label>
+            <input
+                type="email"
+                id="courriel"
+                name="courriel"
+                value="{{ valeurs.get('courriel', '') }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="username">
+                Nom d'utilisateur <span class="requis">*</span>
+            </label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                value="{{ valeurs.get('username', '') }}"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="mot_de_passe">
+                Mot de passe <span class="requis">*</span>
+            </label>
+            <input
+                type="password"
+                id="mot_de_passe"
+                name="mot_de_passe"
+                minlength="6"
+                required
+            >
+        </div>
+
+        <div class="champ">
+            <label for="photo">Photo de profil</label>
+            <input
+                type="file"
+                id="photo"
+                name="photo"
+                accept="image/png,image/jpeg,image/gif,image/webp"
+            >
+        </div>
+
+        <div class="actions-formulaire">
+            <button type="submit" class="bouton-principal">Créer</button>
+            <a
+                href="{{ url_for('utilisateurs.liste_utilisateurs') }}"
+                class="bouton-annuler"
+            >
+                Annuler
+            </a>
+        </div>
+    </form>
+</section>
+{% endblock %}
